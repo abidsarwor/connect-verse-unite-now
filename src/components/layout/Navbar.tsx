@@ -10,10 +10,29 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
+import { useToast } from "@/hooks/use-toast";
 
 const Navbar = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false); // This would come from auth context in a real app
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const { toast } = useToast();
+
+  const handleLogin = () => {
+    // For demo purposes only
+    setIsLoggedIn(true);
+    toast({
+      title: "Logged in",
+      description: "You have successfully logged in",
+    });
+  };
+
+  const handleLogout = () => {
+    setIsLoggedIn(false);
+    toast({
+      title: "Logged out",
+      description: "You have successfully logged out",
+    });
+  };
 
   return (
     <nav className="sticky top-0 z-50 bg-white dark:bg-gray-900 shadow-sm border-b">
@@ -63,7 +82,7 @@ const Navbar = () => {
                     <DropdownMenuItem>
                       <Link to="/settings" className="w-full">Settings</Link>
                     </DropdownMenuItem>
-                    <DropdownMenuItem onClick={() => setIsLoggedIn(false)}>
+                    <DropdownMenuItem onClick={handleLogout}>
                       Logout
                     </DropdownMenuItem>
                   </DropdownMenuContent>
@@ -72,12 +91,14 @@ const Navbar = () => {
             )}
             {!isLoggedIn && (
               <>
-                <Button variant="ghost" onClick={() => setIsLoggedIn(true)}>
+                <Button variant="ghost" onClick={handleLogin}>
                   Login
                 </Button>
-                <Button className="bg-connectverse-primary hover:bg-blue-600">
-                  Sign Up
-                </Button>
+                <Link to="/">
+                  <Button className="bg-connectverse-primary hover:bg-blue-600">
+                    Sign Up
+                  </Button>
+                </Link>
               </>
             )}
           </div>
@@ -127,7 +148,7 @@ const Navbar = () => {
                 <div className="pt-2">
                   <Button 
                     className="w-full bg-red-500 hover:bg-red-600 text-white"
-                    onClick={() => setIsLoggedIn(false)}
+                    onClick={handleLogout}
                   >
                     Logout
                   </Button>
@@ -139,13 +160,15 @@ const Navbar = () => {
                 <Button 
                   className="w-full"
                   variant="outline"
-                  onClick={() => setIsLoggedIn(true)}
+                  onClick={handleLogin}
                 >
                   Login
                 </Button>
-                <Button className="w-full bg-connectverse-primary hover:bg-blue-600">
-                  Sign Up
-                </Button>
+                <Link to="/">
+                  <Button className="w-full bg-connectverse-primary hover:bg-blue-600">
+                    Sign Up
+                  </Button>
+                </Link>
               </>
             )}
           </div>
